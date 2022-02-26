@@ -27,7 +27,7 @@
  // Word list taken from https://github.com/first20hours/google-10000-english
  // (Some data cleaning was required, such as removing words not in the dictionary)
  var words_list = [];
- var words_set = undefined;
+ var words_set = new Set();
  
  function loadWords () {
      fs.readFile("words.txt", 'utf8' , (err, data) => {
@@ -35,11 +35,10 @@
  
          for (var i = 0; i < records.length; i++) {
              words_list.push(records[i]);
+             words_set.add(records[i]);
          }
  
      });
- 
-     words_set = new Set(words_list);
  
  }
  
