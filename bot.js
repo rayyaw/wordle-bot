@@ -141,6 +141,7 @@ function getRandomInt (min, max) {
 var ongoing_games = {};
 
 // This class handles a single game of Wordle
+// FIXME: have invalid word checking
 class WordleGame {
     constructor () {
         this.newPuzzle();
