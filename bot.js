@@ -27,6 +27,7 @@
  // Word list taken from https://github.com/first20hours/google-10000-english
  // (Some data cleaning was required, such as removing words not in the dictionary)
  var words_list = [];
+ var words_set = undefined;
  
  function loadWords () {
      fs.readFile("words.txt", 'utf8' , (err, data) => {
@@ -36,7 +37,10 @@
              words_list.push(records[i]);
          }
  
-       });
+     });
+ 
+     words_set = new Set(words_list);
+ 
  }
  
  // Emote codes to use when responding
@@ -232,7 +236,7 @@
              http.send();
  
              // Enforce that the word is valid
-             if (http.responseText.startsWith("{\"title\":\"No Definitions Found\"")) {
+             if (http.responseText.startsWith("{\"title\":\"No Definitions Found\"") && !words_set.has(guess_str)) {
                  return "That is not a valid word";
              }
  
