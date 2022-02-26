@@ -13,6 +13,9 @@
  const {Client, Intents, User} = require('discord.js');
  const token = require('./auth-main.json');
  const config = require('./package.json');
+ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+ 
+ const http = new XMLHttpRequest();
  
  const fs = require('fs');
  
@@ -221,6 +224,18 @@
          } else if (!guess_str.match(/^[a-z]+$/)) {
              return "Message contains invalid characters";
          } else {
+             // Use DictionaryAPI to check if the word is valid
+             const url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + guess_str;
+ 
+             // Wait until the request is satisfied
+             http.open("GET", url, false);
+             http.send();
+ 
+             // Enforce that the word is valid
+             if (http.responseText.startsWith("{\"title\":\"No Definitions Found\"")) {
+                 return "That is not a valid word";
+             }
+ 
              // If the guess is valid, check if it's correct.
              // Output the score.
              this.guesses.push(guess_str);
