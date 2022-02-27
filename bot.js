@@ -23,10 +23,17 @@
                                        Intents.FLAGS.GUILD_MESSAGES,
                                        Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
  
- // Load list of ~8,000 most common words of english (all are at least 5 letters long)
+ // Load list of ~6,000 most common words of english (between 5 and 9 letters)
  // Word list taken from https://github.com/first20hours/google-10000-english
  // (Some data cleaning was required, such as removing words not in the dictionary)
- var words_list = [];
+ var words_list = {
+     4: [],
+     5: [],
+     6: [],
+     7: [],
+     8: [],
+     9: []
+ };
  var words_set = new Set();
  
  function loadWords () {
@@ -34,7 +41,7 @@
          var records = data.split("\n");
  
          for (var i = 0; i < records.length; i++) {
-             words_list.push(records[i]);
+             words_list[records[i].length].push(records[i]);
              words_set.add(records[i]);
          }
  
@@ -148,14 +155,19 @@
  
  // This class handles a single game of Wordle
  class WordleGame {
-     constructor () {
-         this.newPuzzle();
+     constructor (length=0) {
+         this.newPuzzle(length);
      }
  
-     newPuzzle () {
+     newPuzzle (length=0) {
          // Select a random word to use
-         var idx = getRandomInt(0, words_list.length);
-         this.actual = words_list[idx];
+         
+         if (length < 5 || length > 9 || isNaN(length)) {
+             length = getRandomInt(5, 10);
+         }
+         
+         var idx = getRandomInt(0, words_list[length].length);
+         this.actual = words_list[length][idx];
  
          this.letters = {}
  
@@ -273,10 +285,10 @@
      if (message.author.bot) return;
  
      // Initialize a new game of Wordle, and output the word length.
-     if (message.content === ".wordle init") {
+     if (message.content.startsWith(".wordle init")) {
          var author = message.guild.members.cache.get(message.author.id);
          
-         ongoing_games[author] = new WordleGame();
+         ongoing_games[author] = new WordleGame(parseInt(message.content.substring(13)));
  
          message.channel.send("New game started. The new word has " + ongoing_games[author].getWordLength() + " letters");
  
@@ -334,7 +346,7 @@
  
      // Output helpful information about how to use the bot
      else if (message.content === ".help") {
-         output = "`.wordle init` - Start a new game of Wordle\n";
+         output = "`.wordle init <length>` - Start a new game of Wordle. Optionally, specify a word length between 5 and 9 inclusive.\n";
          output += "`.wordle guess` - Make a guess on the current word\n";
          output += "`.wordle score` - Display the score for this game";
  
@@ -343,4 +355,4 @@
  });
  
  // If you decide to use this code yourself, you should provide your own API key in auth-main.json
- client.login(token.token);
+ client.login(token.main_token);
