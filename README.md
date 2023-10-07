@@ -1,6 +1,6 @@
 # Wordle Discord Bot
 
-Welcome to Riley's Wordle bot, built for Discord!
+Welcome to my Wordle bot, built for Discord!
 
 How to add this to your discord? Just click this link!
 
@@ -25,11 +25,11 @@ This bot stores one puzzle per user, regardless of what servers it's in. The com
 - `.wordle guess [word]` - Guess `word` for the puzzle solution. You get 20 guesses before the puzzle will reset. This will show which letters are in the word and in the correct place in green, and which letters are in the word, but not the correct place in yellow. If a letter is not in the word, it is shown in gray.
 - `.wordle score` - Displays all of your guesses for the current puzzle.
 
-Note that letters may be used multiple times. I have attempted to remove all controversial content, locations other than country names, person names, and brand names from the database, but I may have missed some. If you find one please message me on Discord at RileyTAS#9909.
+Note that letters may be used multiple times. I have attempted to remove all controversial content, locations other than country names, person names, and brand names from the database, but I may have missed some. If you find one please open an issue on the GitHub page
 
 ## Attributions
 
-This bot was made by Riley. Since I intend to remain anonymous, but may need to claim credit for this work, anyone capable of producing x such that
+Since I intend to remain anonymous, but may need to claim credit for this work, anyone capable of producing x such that
 
 SHA256(x) = d2b57bba7bfa40176a62f0513ded10e1daaea379487ab65de7775bcb8b7bba25
 
